@@ -1,12 +1,108 @@
 <!DOCTYPE html>
-<html>
+<html lang="zh-CN">
 <head>
-    <meta charset="utf-8">
-    <title>晴空城</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ExemExp 的小站</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+ 
+        header {
+            background-color: #000000;
+            color: white;
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+ 
+        header h1 {
+            margin: 0;
+        }
+ 
+        header .buttons {
+            display: flex;
+            align-items: center;
+        }
+ 
+        header .buttons a {
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            margin: 0 10px;
+            background-color: rgba(255, 255, 255, 0.2);
+            border-radius: 5px;
+        }
+ 
+        header .buttons a:hover {
+            background-color: rgba(255, 255, 255, 0.3);
+        }
+        
+        .fontb {
+            font-size: 30px;
+        }
+
+        .content {
+            display: flex;
+            flex-wrap: wrap;
+        }
+ 
+        .sidebar {
+            flex: 1;
+            max-width: 400px;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+ 
+        .main {
+            flex: 3;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        .main a {
+            display: block;
+            text-decoration: none;
+            color: #333;
+            transition: color 0.3s;
+        }
+        .main a:hover {
+            color: #555;
+        }
+    </style>
 </head>
 <body>
-    <h1>晴空城</h1>
-    <p>Hello World!<br/>若想继续添加文本可在Github 编写 HTML 后 Push，也可以上传文件供人下载</p>
-    <a href="https://start-bme.github.io">由 Start-BME 的小站赞助</a>
+    <header>
+        <img src="1msun.github.io/pics/logo.png" alt="LogoWithText"/>
+        <div class="buttons">
+            <!-- <a href="https://start-bme.github.io/old">旧版</a> -->
+            
+        </div>
+    </header>
+ 
+    <div class="content">
+        <div class="sidebar">
+            <img src="https://start-bme.github.io/pics/avatar.avif" alt="Bilibili Avatar">
+            <h1>ExemExp</h1>
+            <p>你的电脑遇到了你，<br/>需要重新启动。</p>
+            <a href="https://space.bilibili.com/2030178992">ExemExp 的空间</a><br/><br/>
+            <img src="https://start-bme.github.io/pics/avatar3.avif" alt="Bilibili Avatar 3">
+            <a href="https://space.bilibili.com/2030178992" class="fontb"> Exes-执行</a>
+            <!-- 您可以根据需要添加更多内容 -->
+        </div>
+        <div class="main">
+             <!-- 超链接不用br/ -->
+            <h1>ExemExp 的主页</h1>
+            <p><i>谁能想到这页面是 AI 造的（<br/>注意：该页面仍在测试，如有问题不可返回旧版</i></p>
+            <h1>博客</h1>
+            <a href="https://start-bme.github.io/blogs/4.htm">ExemExp 小站主页已重构   <i>2024.11</i></a>
+            <a href="https://start-bme.github.io/blogs/3.htm">重写完成后一些疑难问题的解答（？）   <i>2023.3</i></a>
+            <a href="https://start-bme.github.io/blogs/2.htm">关于 STR_Tool 重构的通知   <i>2023.1</i></a>
+            <a href="https://start-bme.github.io/blogs/1.htm">梦开始的地方！Start-BME 的小站正式建站！   <i>2023.1</i></a>
+        </div>
+    </div>
 </body>
 </html>
