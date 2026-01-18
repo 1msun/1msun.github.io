@@ -3,7 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script type="text/javascript" src="sd/showdown.min.js"></script>
     <title>Class Mathematics Association</title>
     <style>
         body {
@@ -82,49 +81,53 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            flex-wrap: wrap;
+        }
+        footer p, footer a {
+            margin: 0 5px;
         }
     </style>
 </head>
-<body>
+<body onload="compile()">
     <header>
         <h1>Class Mathematics Association</h1>
         <div class="buttons">
             <!-- <a href="https://start-bme.github.io/old">旧版</a> -->
             <!-- <a href="https://1msun.github.io/">test</a> -->
-            
         </div>
     </header>
  
     <div class="content">
         <div class="main">
-             <!-- 超链接不用br/ -->
             <div id="result"></div>
         </div>
     </div>
+
+    <!-- 先加载 showdown 库 -->
+    <script type="text/javascript" src="sd/showdown.min.js"></script>
+    
+    <!-- 然后写脚本 -->
+    <script type="text/javascript">
+        function compile(){
+            // 方法2：从外部文件加载
+            fetch('content.md')
+                .then(response => response.text())
+                .then(text => {
+                    var converter = new showdown.Converter();
+                    var html = converter.makeHtml(text);
+                    document.getElementById("result").innerHTML = html;
+                })
+                .catch(error => {
+                    console.error('Error loading Markdown:', error);
+                    document.getElementById("result").innerHTML = '<p>加载内容时出错</p>';
+                });
+        }
+        </script>
+    
     <footer>
         <p>Markdown 转写基于 </p><a href="https://github.com/showdownjs/showdown">Showdown</a><p>, 点击查看 </p><a href="https://Start-BME.github.io/blogs/sd/LICENSE">MIT 协议</a><p>. </p>
         <p>数学公式显示基于</p><a href="https://katex.org">KaTeX</a><p>. 
         网站支持基于</p><a href="https://pages.github.com">Github Pages</a><p>. </p> 
     </footer>
-    <script type="text/javascript">
-        async function compile() {
-            try {
-                // 使用 Fetch API 读取同一目录下的 Markdown.md 文件
-                const response = await fetch('markdown.md');
-                
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-                
-                const markdownText = await response.text();
-                var converter = new showdown.Converter();
-                var html = converter.makeHtml(markdownText);
-                document.getElementById("result").innerHTML = html;
-            } catch (error) {
-                console.error('Error loading Markdown file:', error);
-                document.getElementById("result").innerHTML = `<p style="color: red;">Markdown 加载失败: ${error.message}</p>`;
-            }
-        }
-    </script>
 </body>
 </html>
