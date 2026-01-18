@@ -9,6 +9,9 @@
             font-family: sans-serif;
             margin: 0;
             padding: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
         }
  
         header {
@@ -49,14 +52,15 @@
         .content {
             display: flex;
             flex-wrap: wrap;
+            flex: 1; /* 让内容区域占据剩余空间 */
         }
  
-        .sidebar {
+        /*.sidebar {
             flex: 1;
             max-width: 400px;
             padding: 20px;
             box-sizing: border-box;
-        }
+        }*/
  
         .main {
             flex: 3;
@@ -72,19 +76,37 @@
         .main a:hover {
             color: #555;
         }
+        
         footer {
-            background-color: #f0f0f0; /* 浅灰色 */
+            background-color: #f0f0f0;
             color: #333;
             text-align: center;
-            padding: 10px;
-            height: 60px; 
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-wrap: wrap;
+            padding: 10px; /* 减少 padding */
+            margin-top: auto;
+            line-height: 1.4; /* 减小行高 */
+            font-size: 14px; /* 可以适当调整字体大小 */
         }
-        footer p, footer a {
-            margin: 0 5px;
+
+        footer p {
+            margin: 0 0 5px 0; /* 减少段落间距 */
+        }
+
+        footer a {
+            color: #0066cc;
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        /* 如果需要更紧凑的布局，可以进一步调整 */
+        @media (max-width: 768px) {
+            footer {
+                padding: 8px;
+                font-size: 13px;
+                line-height: 1.3;
+            }
         }
     </style>
 </head>
@@ -92,8 +114,8 @@
     <header>
         <h1>Class Mathematics Association</h1>
         <div class="buttons">
-            <!-- <a href="https://start-bme.github.io/old">旧版</a> -->
-            <!-- <a href="https://1msun.github.io/">test</a> -->
+            <!-- <a href="https://start-bme.github.io">作者</a> -->
+            <!-- 此处放按钮 -->
         </div>
     </header>
  
@@ -103,13 +125,29 @@
         </div>
     </div>
 
+    <footer>
+        <!-- 底栏 -->
+
+            <p>
+                Markdown 转写基于 <a href="https://github.com/showdownjs/showdown">Showdown</a>, 
+                点击查看 <a href="https://1msun.github.io/cma/sd/LICENSE">MIT 协议</a>.
+            <br>
+                数学公式显示基于 <a href="https://katex.org">KaTeX</a>.
+            <br>
+                网站支持基于 <a href="https://pages.github.com">Github Pages</a>.
+            </p>
+
+        
+    </footer>
+    
     <!-- 先加载 showdown 库 -->
     <script type="text/javascript" src="sd/showdown.min.js"></script>
     
     <!-- 然后写脚本 -->
     <script type="text/javascript">
+        // Showdown 编译 Markdown
         function compile(){
-            // 方法2：从外部文件加载
+            // 从外部文件加载
             fetch('content.md')
                 .then(response => response.text())
                 .then(text => {
@@ -122,12 +160,7 @@
                     document.getElementById("result").innerHTML = '<p>加载内容时出错</p>';
                 });
         }
-        </script>
-    
-    <footer>
-        <p>Markdown 转写基于 </p><a href="https://github.com/showdownjs/showdown">Showdown</a><p>, 点击查看 </p><a href="https://Start-BME.github.io/blogs/sd/LICENSE">MIT 协议</a><p>. </p>
-        <p>数学公式显示基于</p><a href="https://katex.org">KaTeX</a><p>. 
-        网站支持基于</p><a href="https://pages.github.com">Github Pages</a><p>. </p> 
-    </footer>
+        
+    </script>
 </body>
 </html>
