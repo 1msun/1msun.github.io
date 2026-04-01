@@ -6,6 +6,7 @@
     <title>Class Mathematics Association</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.1/dist/katex.min.css">
     <script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.1/dist/katex.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/showdown-katex@0.2.0/dist/showdown-katex.min.js"></script>
     <style>
         body {
             font-family: sans-serif;
@@ -154,7 +155,9 @@
             fetch('content.md')
                 .then(response => response.text())
                 .then(text => {
-                    var converter = new showdown.Converter();
+                    const converter = new showdown.Converter({
+                        extensions: ['katex']  // 加载扩展
+                    });
                     var html = converter.makeHtml(text);
                     document.getElementById("result").innerHTML = html;
                 })
