@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
+    <!-- 请注意：这个 HTML 适用于 CMA 所有博客，自己写博客 Markdown, 然后cv大法走起就行-->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Class Mathematics Association</title>
@@ -58,12 +59,14 @@
             flex: 1; /* 让内容区域占据剩余空间 */
         }
  
-        /*.sidebar {
+        /*
+        .sidebar {
             flex: 1;
             max-width: 400px;
             padding: 20px;
             box-sizing: border-box;
-        }*/
+        }
+        */
  
         .main {
             flex: 3;
@@ -146,7 +149,9 @@
     
     <!-- 先加载 showdown 库 -->
     <script type="text/javascript" src="https://1msun.github.io/cma/sd/showdown.min.js"></script>
-    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.1/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.1/dist/katex.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/showdown-katex@0.2.0/dist/showdown-katex.min.js"></script>
     <!-- 然后写脚本 -->
     <script type="text/javascript">
         // Showdown 编译 Markdown
@@ -155,15 +160,18 @@
             fetch('content.md')
                 .then(response => response.text())
                 .then(text => {
-                    const converter = new showdown.Converter({
-                        extensions: ['katex']  // 加载扩展
+                    var converter = new showdown.Converter({
+                        extensions: ['katex']  // 加载扩展 showdown-katex
                     });
                     var html = converter.makeHtml(text);
                     document.getElementById("result").innerHTML = html;
                 })
                 .catch(error => {
                     console.error('Error loading Markdown:', error);
-                    document.getElementById("result").innerHTML = '<p>加载内容时出错</p>';
+                    document.getElementById("result").innerHTML = '<p>加载内容时出错</p><br/>' /* + error */;
+                    // 上一行注释里面用于显示错误类型，但是显示不出来就注释掉了
+                    document.getElementById("result").innerHTML = error; //这里用来显示
+
                 });
         }
         
