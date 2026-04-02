@@ -113,7 +113,7 @@
         }
     </style>
 </head>
-<body onload="compile()">
+<body> <!-- 暂停使用 onload="compile()" -->
     <header>
         <h1>Class Mathematics Association</h1>
         <div class="buttons">
@@ -144,33 +144,77 @@
         
     </footer>
     
-    <!-- 先加载 showdown 库 -->
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/showdown@1.8.6/dist/showdown.min.js"></script>
-    <!-- showdown-katex -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.1/dist/katex.min.css">
-    <script type="text/javascript" defer src="https://cdn.jsdelivr.net/npm/katex@0.10.1/dist/katex.min.js"></script>
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/showdown-katex@0.2.0/dist/showdown-katex.min.js"></script>
-    <!-- 然后写脚本 -->
-    <script type="text/javascript">
-        // Showdown 编译 Markdown
-        function compile(){
-            // 从外部文件加载
+    <!-- 加载库文件 -->
+    <script src="https://cdn.jsdelivr.net/npm/showdown@2.1.0/dist/showdown.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+    
+    <!-- 自定义的 showdown katex 扩展 -->
+    <script>
+        // 自定义 KaTeX 扩展 for Showdown
+        (function() {
+            if (typeof showdown !== 'undefined') {
+                // 定义扩展
+                showdown.extension('katex', function() {
+                    return [{
+                        type: 'output',
+                        regex: /\$\$([\s\S]+?)\$\$|\$([^\$\n]+?)\$/g,
+                        replace: function(match, blockMath, inlineMath) {
+                            if (blockMath) {
+                                // 块级公式
+                                try {
+                                    return katex.renderToString(blockMath, {
+                                        displayMode: true,
+                                        throwOnError: false
+                                    });
+                                } catch(e) {
+                                    return `<div class="katex-error">公式错误: ${blockMath}</div>`;
+                                }
+                            } else if (inlineMath) {
+                                // 行内公式
+                                try {
+                                    return katex.renderToString(inlineMath, {
+                                        displayMode: false,
+                                        throwOnError: false
+                                    });
+                                } catch(e) {
+                                    return `<span class="katex-error">公式错误: ${inlineMath}</span>`;
+                                }
+                            }
+                            return match;
+                        }
+                    }];
+                });
+            }
+        })();
+    </script>
+
+    <script>
+        // 加载并编译 Markdown
+        function compile() {
             fetch('content.md')
-                .then(response => response.text())
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                    return response.text();
+                })
                 .then(text => {
+                    // 创建转换器，使用自定义的 katex 扩展
                     var converter = new showdown.Converter({
-                        extensions: ['katex']  // 加载扩展 showdown-katex
+                        extensions: ['katex']
                     });
                     var html = converter.makeHtml(text);
                     document.getElementById("result").innerHTML = html;
                 })
                 .catch(error => {
                     console.error('Error loading Markdown:', error);
-                    document.getElementById("result").innerHTML = '<p>加载内容时出错</p><br/>' /* + error */;
-                    // 上一行注释里面用于显示错误类型，但是显示不出来就注释掉了
-                    document.getElementById("result").innerHTML = error; //这里用来显示
+                    document.getElementById("result").innerHTML = '<p style="color: red;">加载内容时出错: ' + error.message + '</p>';
                 });
         }
+        
+        // 页面加载完成后执行
+        document.addEventListener('DOMContentLoaded', compile);
     </script>
 </body>
 </html>
