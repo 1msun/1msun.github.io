@@ -131,21 +131,21 @@
     <footer>
         <!-- 底栏 -->
 
-            <p>
-                Markdown 转写基于 <a href="https://github.com/showdownjs/showdown">Showdown</a>, 
-                点击查看 <a href="https://1msun.github.io/cma/sd/LICENSE">MIT 协议</a>.
-            <br>
-                数学公式显示基于 <a href="https://katex.org">KaTeX</a>,
-                点击查看 <a href="https://github.com/KaTeX/KaTeX/blob/main/LICENSE">MIT 协议</a>.
-            <br>
-                网站支持基于 <a href="https://pages.github.com">Github Pages</a>.
-            </p>
+        <p>
+            Markdown 转写基于 <a href="https://github.com/showdownjs/showdown">Showdown</a>, 
+            点击查看 <a href="https://1msun.github.io/cma/sd/LICENSE">MIT 协议</a>.
+        <br>
+            数学公式显示基于 <a href="https://katex.org">KaTeX</a>,
+            点击查看 <a href="https://github.com/KaTeX/KaTeX/blob/main/LICENSE">MIT 协议</a>.
+        <br>
+            网站支持基于 <a href="https://pages.github.com">Github Pages</a>.
+        </p>
 
         
     </footer>
     
     <!-- 先加载 showdown 库 -->
-    <script type="text/javascript" src="https://1msun.github.io/cma/sd/showdown.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/showdown@1.8.6/dist/showdown.min.js"></script>
     <!-- showdown-katex -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.1/dist/katex.min.css">
     <script type="text/javascript" defer src="https://cdn.jsdelivr.net/npm/katex@0.10.1/dist/katex.min.js"></script>
@@ -169,7 +169,6 @@
                     document.getElementById("result").innerHTML = '<p>加载内容时出错</p><br/>' /* + error */;
                     // 上一行注释里面用于显示错误类型，但是显示不出来就注释掉了
                     document.getElementById("result").innerHTML = error; //这里用来显示
-
                 });
         }
     </script>
