@@ -75,9 +75,12 @@
             color: #333;
             transition: color 0.3s;
         }
+        
+        /*
         .main a:hover {
             color: #555;
         }
+        */
         
         footer {
             background-color: #f0f0f0;
@@ -160,7 +163,7 @@
                 })
                 .catch(error => {
                     console.error('Error loading Markdown:', error);
-                    document.getElementById("result").innerHTML = '<p>加载内容时出错</p>';
+                    document.getElementById("result").innerHTML = '<p style="color: red;">加载内容时出错: ' + error.message + '</p>';
                 });
         }
         

@@ -11,5 +11,3 @@ $$
 内嵌的Katex效果$E=mc^2$就是这样  
 
 欢迎使用 $\KaTeX$ !  
-
-TEST - RM - 5
