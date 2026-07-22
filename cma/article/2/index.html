@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <!-- 请注意：这个 HTML 适用于 CMA 所有博客，自己写博客 Markdown, 然后cv大法走起就行-->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Class Mathematics Association</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+ 
+        header {
+            background-color: #000000;
+            color: white;
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+ 
+        header h1 {
+            margin: 0;
+        }
+ 
+        header .buttons {
+            display: flex;
+            align-items: center;
+        }
+ 
+        header .buttons a {
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            margin: 0 10px;
+            background-color: rgba(255, 255, 255, 0.2);
+            border-radius: 5px;
+        }
+ 
+        header .buttons a:hover {
+            background-color: rgba(255, 255, 255, 0.3);
+        }
+        
+        .fontb {
+            font-size: 30px;
+        }
+
+        .content {
+            display: flex;
+            flex-wrap: wrap;
+            flex: 1; /* 让内容区域占据剩余空间 */
+        }
+ 
+        /*
+        .sidebar {
+            flex: 1;
+            max-width: 400px;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        */
+ 
+        .main {
+            flex: 3;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        .main a {
+            display: block;
+            text-decoration: none;
+            color: #333;
+            transition: color 0.3s;
+        }
+        .main a:hover {
+            color: #555;
+        }
+        
+        footer {
+            background-color: #f0f0f0;
+            color: #333;
+            text-align: center;
+            padding: 10px; /* 减少 padding */
+            margin-top: auto;
+            line-height: 1.4; /* 减小行高 */
+            font-size: 14px; /* 可以适当调整字体大小 */
+        }
+
+        footer p {
+            margin: 0 0 5px 0; /* 减少段落间距 */
+        }
+
+        footer a {
+            color: #0066cc;
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        /* 如果需要更紧凑的布局，可以进一步调整 */
+        @media (max-width: 768px) {
+            footer {
+                padding: 8px;
+                font-size: 13px;
+                line-height: 1.3;
+            }
+        }
+    </style>
+</head>
+<body> <!-- 此处暂停使用 onload="compile()" -->
+    <header>
+        <h1>Class Mathematics Association</h1>
+        <div class="buttons">
+            <a href="https://1msun.github.io/cma">返回</a>
+            <!-- <a href="https://start-bme.github.io">作者</a> -->
+            <!-- 此处放顶栏右侧按钮 -->
+        </div>
+    </header>
+ 
+    <div class="content">
+        <div class="main">
+            <div id="result"></div>
+        </div>
+    </div>
+
+    <footer>
+
+        <p>
+            Markdown 转写基于 <a href="https://github.com/showdownjs/showdown">Showdown</a>, 
+            点击查看 <a href="https://github.com/showdownjs/showdown/blob/master/LICENSE">MIT 协议</a>.
+        <br>
+            数学公式显示基于 <a href="https://katex.org">KaTeX</a>,
+            点击查看 <a href="https://github.com/KaTeX/KaTeX/blob/main/LICENSE">MIT 协议</a>.
+        <br>
+            网站支持基于 <a href="https://pages.github.com">Github Pages</a>.
+        </p>
+
+        
+    </footer>
+    
+    <!-- 加载库文件 -->
+    <script src="https://cdn.jsdelivr.net/npm/showdown@2.1.0/dist/showdown.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+    
+    <!-- 自定义的 showdown katex 扩展 -->
+    <script>
+        // 自定义 KaTeX 扩展 for Showdown
+        (function() {
+            if (typeof showdown !== 'undefined') {
+                // 定义扩展
+                showdown.extension('katex', function() {
+                    return [{
+                        type: 'output',
+                        regex: /\$\$([\s\S]+?)\$\$|\$([^\$\n]+?)\$/g,
+                        replace: function(match, blockMath, inlineMath) {
+                            if (blockMath) {
+                                // 块级公式
+                                try {
+                                    return katex.renderToString(blockMath, {
+                                        displayMode: true,
+                                        throwOnError: false
+                                    });
+                                } catch(e) {
+                                    return `<div class="katex-error">公式错误: ${blockMath}</div>`;
+                                }
+                            } else if (inlineMath) {
+                                // 行内公式
+                                try {
+                                    return katex.renderToString(inlineMath, {
+                                        displayMode: false,
+                                        throwOnError: false
+                                    });
+                                } catch(e) {
+                                    return `<span class="katex-error">公式错误: ${inlineMath}</span>`;
+                                }
+                            }
+                            return match;
+                        }
+                    }];
+                });
+            }
+        })();
+    </script>
+    <script>
+        // 加载并编译 Markdown
+        function compile() {
+            fetch('content.md')
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                    return response.text();
+                })
+                .then(text => {
+                    // 创建转换器，使用自定义的 katex 扩展
+                    var converter = new showdown.Converter({
+                        extensions: ['katex']
+                    });
+                    var html = converter.makeHtml(text);
+                    document.getElementById("result").innerHTML = html;
+                })
+                .catch(error => {
+                    console.error('Error loading Markdown:', error);
+                    document.getElementById("result").innerHTML = '<p style="color: red;">加载内容时出错: ' + error.message + '</p>';
+                });
+        }
+        
+        // 页面加载完成后执行
+        document.addEventListener('DOMContentLoaded', compile);
+    </script>
+</body>
+</html>
